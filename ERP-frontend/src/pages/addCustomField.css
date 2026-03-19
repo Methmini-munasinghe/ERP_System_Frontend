@@ -1,0 +1,243 @@
+.custom-field-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1300;
+  padding: 20px;
+}
+
+.custom-field-card {
+  width: min(900px, 96vw);
+  max-height: 90vh;
+  overflow: auto;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.24);
+}
+
+.custom-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+.custom-field-title {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #111827;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.custom-field-title-muted {
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.custom-field-title-divider {
+  color: #9ca3af;
+  font-size: 1.3rem;
+  margin-top: 2px;
+}
+
+.custom-field-header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-field-add-more-btn {
+  border: 1px solid #6b7280;
+  background: #ffffff;
+  color: #374151;
+  border-radius: 999px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.custom-field-close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #9ca3af;
+  background: #ffffff;
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.custom-field-body {
+  padding: 16px 24px 18px;
+}
+
+.custom-field-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+
+.custom-field-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.custom-field-label {
+  color: #4b5563;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.custom-field-block input,
+.custom-field-block textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  outline: none;
+  font-family: inherit;
+}
+
+.custom-field-block input::placeholder,
+.custom-field-block textarea::placeholder {
+  color: #9ca3af;
+}
+
+.custom-field-block input:focus,
+.custom-field-block textarea:focus {
+  border-color: #8b5cf6;
+}
+
+.custom-field-radio-block {
+  grid-column: span 1;
+}
+
+.custom-field-full-row {
+  grid-column: span 2;
+}
+
+.custom-field-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin-top: 2px;
+}
+
+.custom-field-radio-row label {
+  font-size: 0.9rem;
+  color: #4b5563;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.custom-field-radio-row input[type="radio"] {
+  accent-color: #8b5cf6;
+}
+
+.custom-field-image-block {
+  grid-row: span 2;
+}
+
+.custom-field-upload-box {
+  height: 94px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-field-upload-plus {
+  width: 58px;
+  height: 58px;
+  border: 1px solid #d1d5db;
+  border-radius: 50%;
+  color: #d1d5db;
+  font-size: 2rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-field-description-block {
+  grid-column: span 2;
+}
+
+.custom-field-submit-btn {
+  margin-top: 16px;
+  border: 1px solid #7c3aed;
+  background: #7c3aed;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 10px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .custom-field-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .custom-field-full-row,
+  .custom-field-image-block,
+  .custom-field-description-block {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+
+  .custom-field-title {
+    font-size: 1.55rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .custom-field-overlay {
+    padding: 10px;
+  }
+
+  .custom-field-header {
+    padding: 12px 14px;
+  }
+
+  .custom-field-body {
+    padding: 14px;
+  }
+
+  .custom-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .custom-field-full-row,
+  .custom-field-image-block,
+  .custom-field-description-block {
+    grid-column: span 1;
+  }
+
+  .custom-field-title {
+    font-size: 1.25rem;
+  }
+}
