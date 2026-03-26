@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import ProductsPage from "./pages/ProductsPage";
-import "./App.css";
 
 const Dashboard = () => (
   <section>
@@ -22,10 +21,9 @@ const Supplier = () => (
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="app-shell">
+      <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
-
-        <main className="main-content">
+        <main className="flex-1 p-8">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/products" element={<ProductsPage />} />
