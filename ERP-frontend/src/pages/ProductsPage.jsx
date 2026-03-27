@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { AlertCircle, AlertTriangle, CalendarDays, Download, Loader2, Pencil, Search, SlidersHorizontal, Trash2 } from "lucide-react";
+import { AlertCircle, CalendarDays, Download, Loader2, Pencil, Search, SlidersHorizontal, Trash2 } from "lucide-react";
+import DeleteProductModal from "../components/DeleteProductModal";
 
 import AddProducts from "./addProducts";
 import EditProduct from "./editProduct";
@@ -70,14 +71,19 @@ export default function ProductsPage() {
     setProductToDelete(null);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (productToDelete) {
       setIsDeleting(true);
-      // Delete logic
-      setProducts(products.filter((product) => product._id !== productToDelete._id));
-      setShowDeleteModal(false);
-      setProductToDelete(null);
-      setIsDeleting(false);
+      try {
+        await axios.delete(`${API_BASE_URL}/products/${productToDelete._id}`);
+        setShowDeleteModal(false);
+        setProductToDelete(null);
+        fetchProducts();
+      } catch (err) {
+        alert("Failed to delete product");
+      } finally {
+        setIsDeleting(false);
+      }
     }
   };
 
@@ -369,38 +375,13 @@ export default function ProductsPage() {
         onSave={fetchProducts}
       />
 
-      {showDeleteModal && (
-        <div className="products-delete-overlay" onClick={handleDeleteCancel}>
-          <div className="products-delete-modal" onClick={(event) => event.stopPropagation()}>
-            <div className="products-delete-icon-wrap">
-              <AlertTriangle size={46} strokeWidth={1.8} />
-            </div>
-            <p className="products-delete-message">
-              Do you really want to delete the product!
-              <br />
-              Are you sure?
-            </p>
-            <div className="products-delete-actions">
-              <button
-                type="button"
-                className="products-delete-yes-btn"
-                onClick={handleDeleteConfirm}
-                disabled={isDeleting}
-              >
-                {isDeleting ? "Deleting..." : "Yes"}
-              </button>
-              <button
-                type="button"
-                className="products-delete-no-btn"
-                onClick={handleDeleteCancel}
-                disabled={isDeleting}
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteProductModal
+        isOpen={showDeleteModal}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        isDeleting={isDeleting}
+        product={productToDelete}
+      />
     </div>
   );
 }
