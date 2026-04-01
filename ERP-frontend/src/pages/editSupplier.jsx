@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function EditSupplier({ isOpen, onClose, supplier, onSave }) {
   const [form, setForm] = useState({
@@ -11,7 +12,6 @@ export default function EditSupplier({ isOpen, onClose, supplier, onSave }) {
     address: ""
   });
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     if (supplier) {
@@ -37,11 +37,10 @@ export default function EditSupplier({ isOpen, onClose, supplier, onSave }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
-    setError("");
     // Email format validation
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(form.email)) {
-      setError("Please enter a valid email address.");
+      toast.error("Please enter a valid email address.");
       setSaving(false);
       return;
     }
@@ -52,10 +51,11 @@ export default function EditSupplier({ isOpen, onClose, supplier, onSave }) {
         body: JSON.stringify(form)
       });
       if (!res.ok) throw new Error("Failed to update supplier");
+      toast.success("Supplier updated successfully!");
       if (onSave) onSave();
       onClose();
     } catch (err) {
-      setError(err.message || "Failed to update supplier");
+      toast.error(err.message || "Failed to update supplier");
     } finally {
       setSaving(false);
     }
@@ -100,7 +100,6 @@ export default function EditSupplier({ isOpen, onClose, supplier, onSave }) {
             <input name="address" value={form.address} onChange={handleChange} required className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter your Address" />
           </div>
         </div>
-        {error && <div className="text-red-600 text-sm mb-2 text-center">{error}</div>}
         <button type="submit" className="w-full bg-violet-600 text-white rounded-lg py-2.5 font-semibold text-base mt-2 hover:bg-violet-700 transition" disabled={saving}>
           {saving ? "Saving..." : "Save Changes"}
         </button>

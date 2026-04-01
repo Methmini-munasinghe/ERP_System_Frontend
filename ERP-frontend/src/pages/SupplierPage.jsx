@@ -5,6 +5,7 @@ import AddSupplier from "./addSupplier";
 import EditSupplier from "./editSupplier";
 import DeleteSupplierModal from "../components/DeleteSupplierModal";
 import axios from "axios";
+import { toast } from "sonner";
 
 
 export default function SupplierPage() {
@@ -212,19 +213,22 @@ export default function SupplierPage() {
         </div>
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="products-pagination">
+          <div className="flex items-center justify-between bg-white border border-gray-200 rounded-xl shadow px-4 py-3 mt-2">
             <button
-              className="pagination-btn"
+              className="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-violet-50 transition flex items-center gap-2"
               onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
               disabled={currentPage === 1}
             >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
               Previous
             </button>
-            <div className="pagination-numbers">
+            <div className="flex gap-1">
               {pageNumbers.map((pageNumber) => (
                 <button
                   key={pageNumber}
-                  className={`pagination-btn pagination-number ${currentPage === pageNumber ? "pagination-number-active" : ""}`}
+                  className={`px-3 py-2 rounded-lg border text-sm font-semibold transition ${currentPage === pageNumber ? "bg-violet-100 border-violet-400 text-violet-700" : "bg-white border-gray-200 text-gray-700 hover:bg-violet-50"}`}
                   onClick={() => setCurrentPage(pageNumber)}
                 >
                   {pageNumber}
@@ -232,11 +236,14 @@ export default function SupplierPage() {
               ))}
             </div>
             <button
-              className="pagination-btn"
+              className="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-violet-50 transition flex items-center gap-2"
               onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages))}
               disabled={currentPage === totalPages}
             >
               Next
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
             </button>
           </div>
         )}
@@ -261,11 +268,12 @@ export default function SupplierPage() {
           setIsDeleting(true);
           try {
             await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/suppliers/${supplierToDelete._id}`);
+            toast.success("Supplier deleted successfully!");
             setShowDeleteModal(false);
             setSupplierToDelete(null);
             fetchSuppliers();
           } catch (err) {
-            alert("Failed to delete supplier");
+            toast.error("Failed to delete supplier");
           } finally {
             setIsDeleting(false);
           }

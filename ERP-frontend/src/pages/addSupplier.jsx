@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "sonner";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 export default function AddSupplier({ isOpen, onClose, onSave }) {
   const [form, setForm] = useState({
@@ -11,7 +13,7 @@ export default function AddSupplier({ isOpen, onClose, onSave }) {
     address: ""
   });
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   if (!isOpen) return null;
 
@@ -23,14 +25,22 @@ export default function AddSupplier({ isOpen, onClose, onSave }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
-    setError("");
-      // Email format validation
-      const emailRegex = /^\S+@\S+\.\S+$/;
-      if (!emailRegex.test(form.email)) {
-        setError("Please enter a valid email address.");
-        setSaving(false);
-        return;
-      }
+    const newErrors = {};
+    // Email format validation
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(form.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    // Phone number validation using libphonenumber-js
+    const phoneNumber = parsePhoneNumberFromString(form.phoneNumber);
+    if (!phoneNumber || !phoneNumber.isValid()) {
+      newErrors.phoneNumber = "Please enter a valid international phone number with country code (e.g. +1 1234567890)";
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      setSaving(false);
+      return;
+    }
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/suppliers`, {
         method: "POST",
@@ -38,11 +48,13 @@ export default function AddSupplier({ isOpen, onClose, onSave }) {
         body: JSON.stringify(form)
       });
       if (!res.ok) throw new Error("Failed to add supplier");
+      toast.success("Supplier added successfully!");
       setForm({ fullName: "", contactName: "", phoneNumber: "", email: "", state: "", pincode: "", address: "" });
+      setErrors({});
       if (onSave) onSave();
       onClose();
     } catch (err) {
-      setError(err.message || "Failed to add supplier");
+      toast.error(err.message || "Failed to add supplier");
     } finally {
       setSaving(false);
     }
@@ -69,10 +81,12 @@ export default function AddSupplier({ isOpen, onClose, onSave }) {
           <div className="col-span-2">
             <label className="block text-sm font-medium mb-1">Phone number</label>
             <input name="phoneNumber" value={form.phoneNumber} onChange={handleChange} required className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="+1 955 000 0000" />
+            {errors.phoneNumber && <div className="text-red-600 text-xs mt-1">{errors.phoneNumber}</div>}
           </div>
           <div className="col-span-2">
             <label className="block text-sm font-medium mb-1">Email-Id</label>
             <input name="email" value={form.email} onChange={handleChange} required className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter your Email-ID" />
+            {errors.email && <div className="text-red-600 text-xs mt-1">{errors.email}</div>}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">State</label>
@@ -87,7 +101,6 @@ export default function AddSupplier({ isOpen, onClose, onSave }) {
             <input name="address" value={form.address} onChange={handleChange} required className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter your Address" />
           </div>
         </div>
-        {error && <div className="text-red-600 text-sm mb-2 text-center">{error}</div>}
         <button type="submit" className="w-full bg-violet-600 text-white rounded-lg py-2.5 font-semibold text-base mt-2 hover:bg-violet-700 transition" disabled={saving}>
           {saving ? "Adding..." : "Add Supplier"}
         </button>

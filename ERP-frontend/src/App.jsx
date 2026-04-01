@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import Sidebar from "./components/Sidebar";
 import ProductsPage from "./pages/ProductsPage";
 import SupplierPage from "./pages/SupplierPage";
+import { Toaster } from "sonner";
 
 const Dashboard = () => (
   <section>
@@ -25,6 +27,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
+        <Toaster position="top-right" richColors />
       </div>
     </BrowserRouter>
   );
