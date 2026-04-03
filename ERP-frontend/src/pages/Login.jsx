@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/auth/authSlice";
-import google from "../assets/google.svg";
+//import google from "../assets/google.svg";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -83,9 +83,9 @@ function Login() {
           analytics for optimum performance
         </p>
 
-        <p className="absolute bottom-6 left-8 text-xs text-purple-200">
+        {/*<p className="absolute bottom-6 left-8 text-xs text-purple-200">
           © TheUnityWare 2024
-        </p>
+        </p>*/}
       </div>
 
       {/* RIGHT PANEL */}
@@ -143,7 +143,7 @@ function Login() {
                   checked={remember}
                   onChange={(e) => setRemember(e.target.checked)}
                 />
-                Remember for 30 days
+                Remember Me
               </label>
 
               <span
@@ -164,13 +164,13 @@ function Login() {
             </button>
 
             {/* GOOGLE */}
-            <button
+            {/*<button
               type="button"
               className="w-full border py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition"
             >
               <img src={google} alt="Google" className="w-5 h-5" />
               Sign in with Google
-            </button>
+            </button>*/}
 
             {/* SIGN UP */}
             <p className="text-center text-sm text-gray-500 mt-6">
