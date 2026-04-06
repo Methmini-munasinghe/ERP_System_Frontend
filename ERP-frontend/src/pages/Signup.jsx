@@ -178,7 +178,7 @@ function Signup() {
             <p className="text-center text-sm text-gray-500 mt-6">
               Already have an account?
               <span
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/")}
                 className="text-purple-600 cursor-pointer ml-1"
               >
                 Sign in

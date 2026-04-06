@@ -131,7 +131,7 @@ export default function EditProduct({ isOpen, onClose, product, onSave }) {
         submitData.append("mainImage", selectedFile);
       }
 
-      const response = await axios.put(
+      await axios.put(
         `${API_BASE_URL}/products/${product._id}`,
         submitData,
         {

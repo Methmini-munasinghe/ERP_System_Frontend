@@ -7,13 +7,8 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear Redux state
     dispatch(logout());
-
-    // Clear localStorage
     localStorage.removeItem("token");
-
-    // Redirect to login
     navigate("/");
   };
 
@@ -22,8 +17,15 @@ function Dashboard() {
       <span>ERP Dashboard</span>
 
       <button
+        onClick={() => navigate("/purchase-orders")}
+        className="mt-4 px-6 py-2 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6D28D9] transition"
+      >
+        Purchase Orders
+      </button>
+
+      <button
         onClick={handleLogout}
-        className="mt-4 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
       >
         Sign Out
       </button>
