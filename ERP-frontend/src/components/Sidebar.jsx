@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 const menuItems = [
-  { name: "Overview", icon: LayoutDashboard, path: "/" },
+  { name: "Overview", icon: LayoutDashboard, path: "/overview" },
   { name: "Products", icon: Box, path: "/products" },
   { name: "Supplier", icon: Users, path: "/supplier", dropdown: true },
   { name: "Category", icon: Layers, path: "/category", dropdown: true },
@@ -28,7 +28,7 @@ export default function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="w-[260px] min-h-screen bg-white border-r border-gray-200 px-4 py-5 flex flex-col justify-between rounded-r-2xl">
+    <aside className="w-[260px] h-screen bg-white border-r border-gray-200 px-4 py-5 flex flex-col justify-between rounded-r-2xl overflow-y-auto">
       <div>
         <h1 className="mb-5 text-[1.2rem] font-bold text-gray-900">
           The<span className="text-purple-600">UnityWare</span>

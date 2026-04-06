@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import ProductsPage from "./pages/ProductsPage";
 import SupplierPage from "./pages/SupplierPage";
+import Overview from "./pages/Overview";
 import { Toaster } from "sonner";
 
 const Dashboard = () => (
@@ -22,6 +23,7 @@ export default function App() {
         <main className="flex-1 p-8">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/overview" element={<Overview />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/supplier" element={<SupplierPage />} />
             <Route path="*" element={<Navigate to="/" />} />
